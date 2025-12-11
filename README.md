@@ -1,5 +1,5 @@
 # Ex.04 Design a Website for Server Side Processing
-## Date:
+## Date:11/12/2025
 
 ## AIM:
 To create a web page to calculate vehicle mileage and fuel efficiency using server-side scripts.
@@ -32,12 +32,86 @@ Publish the website in the given URL.
 
 ## PROGRAM:
 
+math.html
+
+```
+<html>
+<head>
+    <title>CSS Box Model</title>
+    <style>
+        body {
+            background-color: lightgrey;
+        }
+        .box {
+            width: 600px;
+            margin: 100px auto;
+            background-color: yellow;
+            padding: 40px;
+            border: 5px dashed blue;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>Mileage Calculator</h1>
+        <h3>K RAGAPRIYAN (25014706)</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Distance:</label>
+            <input type="number" name="distance" value="{{ km }}">
+            <br><br>
+
+            <label>Fuel:</label>
+            <input type="number" name="fuel" value="{{ lt }}">
+            <br><br>
+
+            <button type="submit">Calculate</button>
+            <br><br>
+
+            <label>Mileage (KM/Litre):</label>
+            <input type="number" value="{{ mileage }}" readonly> km/l
+        </form>
+    </div>
+</body>
+</html>
+
+```
+
+views.py
+
+```
+from django.shortcuts import render
+def mileage(request):
+    km = int(request.POST.get('distance',0))
+    lt = int(request.POST.get('fuel',0))
+    mileage = km/lt if request.method == 'POST' else 0
+    print("Distance=",km)
+    print("Fuel=",lt)
+    print("Mileage=",mileage)
+    return render(request, 'ragamath/math.html', {'km': km, 'lt': lt, 'mileage': mileage})
+
+```
+
+urls.py
+
+```
+from django.urls import path
+from ragamath import views
+urlpatterns = [
+    path('', views.mileage, name='mileage'),
+]
+
+```
 
 ## OUTPUT - SERVER SIDE:
-
+![alt text](<Screenshot 2025-12-11 182342.png>)
 
 ## OUTPUT - WEBPAGE:
-
+![alt text](<Screenshot 2025-12-11 182258.png>)
 
 ## RESULT:
 The a web page to calculate vehicle mileage and fuel efficiency using server-side scripts is created successfully.
